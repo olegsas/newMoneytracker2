@@ -120,9 +120,9 @@ function makeMonthlyTransactions(start_Day, finish_Day, Month, Year){// we check
     // if we have a full month then start_Day is 1 and if we have the first month we use the start_Day
     
     for(i=1; i<oneDayOfUser().len+1; i++){// we check the transaction list
-        print("i="+i);
-        print("oneDayOfUser().Period[i] = "+ oneDayOfUser().Period[i]);
-        print("oneDayOfUser().Rate[i] = "+ oneDayOfUser().Rate[i]);
+        //print("i="+i);
+        //print("oneDayOfUser().Period[i] = "+ oneDayOfUser().Period[i]);
+        //print("oneDayOfUser().Rate[i] = "+ oneDayOfUser().Rate[i]);
         if(
             (oneDayOfUser().Period[i] === "Month") && 
             (oneDayOfUser().Rate[i] === 1)){
@@ -132,7 +132,7 @@ function makeMonthlyTransactions(start_Day, finish_Day, Month, Year){// we check
             transaction_Date.setFullYear(Year);
             transaction_Date.setMonth(Month);
             transaction_Date.setDate(transactionDay);
-            print("@@Full transaction date is"+transaction_Date);
+            //print("@@Full transaction date is"+transaction_Date);
             var transactionAmount = RandomAmount(oneDayOfUser().AmountMin[i], oneDayOfUser().AmountMax[i],oneDayOfUser().Currency[i])//returns  amount 
             // make a monthly transaction, we need to call random day
             var Number_of_the_name_of_transaction = Math.floor((Math.random()*NUMBER_OF_CATEGORY_NAMES));//0...NUMBER-1
@@ -140,9 +140,9 @@ function makeMonthlyTransactions(start_Day, finish_Day, Month, Year){// we check
             var operationName =  oneDayOfUser().OperationName[i]
             var transactionNameH = db.names.find({"transaction":oneDayOfUser().OperationName[i]},{"names":1,_id:0}).toArray();
             // we have an object from the cursor with transactions names of the operation
-            print("transactionName array - " + transactionNameH[0].names);
+            //print("transactionName array - " + transactionNameH[0].names);
             var transactionNameOnly = transactionNameH[0].names[Number_of_the_name_of_transaction];
-            print("name of any transaction = "+ transactionNameOnly);
+            //print("name of any transaction = "+ transactionNameOnly);
             var transactionType = oneDayOfUser().Type[i];
             var transactionCurrency = oneDayOfUser().Currency[i];
             var transactionAccount = oneDayOfUser().Account[i];
@@ -199,7 +199,7 @@ function makeMonthlyTransactionsTwice(start_Day, finish_Day, Month, Year){
             (oneDayOfUser().Period[i] === "Month") && 
             (oneDayOfUser().Rate[i] === 2)){
         
-            var transactionDays = makeTwoRandom(startDay, finishDay);// 
+            var transactionDays = makeTwoRandom(start_Day, finish_Day);// 
             // we have transactionDays[0] and transactionDays[1];
             var transaction_Date1 = new Date();// we convert it into an object format
             transaction_Date1.setFullYear(Year);
@@ -212,7 +212,9 @@ function makeMonthlyTransactionsTwice(start_Day, finish_Day, Month, Year){
             transaction_Date2.setDate(transactionDays[1]);
             // we have got transaction_Date1 and transaction_Date2
 
-            print("@@Full transaction date is"+transaction_Date);
+            print("@@Full transaction date1 is"+transaction_Date1);
+            print("@@Full transaction date2 is"+transaction_Date2);
+
             var transactionAmount1 = RandomAmount(oneDayOfUser().AmountMin[i], oneDayOfUser().AmountMax[i],oneDayOfUser().Currency[i])//returns  amount 
             var transactionAmount2 = RandomAmount(oneDayOfUser().AmountMin[i], oneDayOfUser().AmountMax[i],oneDayOfUser().Currency[i])//returns  amount
             // make a monthly transaction, we need to call random day
@@ -225,7 +227,9 @@ function makeMonthlyTransactionsTwice(start_Day, finish_Day, Month, Year){
             print("transactionName array - " + transactionNameH[0].names);
             var transactionNameOnly1 = transactionNameH[0].names[Number_of_the_name_of_transaction1];
             var transactionNameOnly2 = transactionNameH[0].names[Number_of_the_name_of_transaction2];
-            print("name of any transaction = "+ transactionNameOnly);
+            print("name of any transaction1 = "+ transactionNameOnly1);
+            print("name of any transaction1 = "+ transactionNameOnly1);
+
             var transactionType = oneDayOfUser().Type[i];
             var transactionCurrency = oneDayOfUser().Currency[i];
             var transactionAccount = oneDayOfUser().Account[i];
@@ -335,12 +339,12 @@ do{
     
     if(cycleDATEfinish > finishDATE){
         makeMonthlyTransactions(cycleDayFirst, finishDATE.getDate(), cycleMonth, cycleYear);
-        makeMonthlyTransactionsTwice(start_Day, last_Day, start_Month, start_Year);
+        makeMonthlyTransactionsTwice(cycleDayFirst, finishDATE.getDate(), cycleMonth, cycleYear);
         //we are in the last short month
     }
     else{
         makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);
-        makeMonthlyTransactionsTwice(start_Day, last_Day, start_Month, start_Year);
+        makeMonthlyTransactionsTwice(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);
         //we work with full month
     }
     
@@ -366,5 +370,5 @@ do{
 
 }
 
-runMonthlyOneAndTwice("1/1/2010", "10/11/2010");//start date and final date - in my task 2016
+runMonthlyOneAndTwice("1/1/2010", "20/1/2010");//start date and final date - in my task 2016
 
