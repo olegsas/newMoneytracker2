@@ -178,7 +178,67 @@ function makeMonthlyTransactions(start_Day, finish_Day, Month, Year){// we check
     }
 }
 
-function runMonthlyOne(startDate, finishDate){// global function runs transaction generation
+function makeMonthlyTransactionsTwice(start_Day, finish_Day, Month, Year){
+    for(i=1; i<oneDayOfUser().len+1; i++){// we check the transaction list
+        print("i="+i);
+        print("oneDayOfUser().Period[i] = "+ oneDayOfUser().Period[i]);
+        print("oneDayOfUser().Rate[i] = "+ oneDayOfUser().Rate[i]);
+        if(
+            (oneDayOfUser().Period[i] === "Month") && 
+            (oneDayOfUser().Rate[i] === 2)){
+        
+            var transactionDay = Math.floor(Math.random()*(finish_Day - start_Day) + start_Day);
+            var transaction_Date = new Date();// we convert it into an object format
+            transaction_Date.setFullYear(Year);
+            transaction_Date.setMonth(Month);
+            transaction_Date.setDate(transactionDay);
+            print("@@Full transaction date is"+transaction_Date);
+            var transactionAmount = RandomAmount(oneDayOfUser().AmountMin[i], oneDayOfUser().AmountMax[i],oneDayOfUser().Currency[i])//returns  amount 
+            // make a monthly transaction, we need to call random day
+            var Number_of_the_name_of_transaction = Math.floor((Math.random()*NUMBER_OF_CATEGORY_NAMES));//0...NUMBER-1
+            // Math.random()<1 that`s why name_of_transactions<NUMBER_OF_CATEGORY_NAMES
+            var operationName =  oneDayOfUser().OperationName[i]
+            var transactionNameH = db.names.find({"transaction":oneDayOfUser().OperationName[i]},{"names":1,_id:0}).toArray();
+            // we have an object from the cursor with transactions names of the operation
+            print("transactionName array - " + transactionNameH[0].names);
+            var transactionNameOnly = transactionNameH[0].names[Number_of_the_name_of_transaction];
+            print("name of any transaction = "+ transactionNameOnly);
+            var transactionType = oneDayOfUser().Type[i];
+            var transactionCurrency = oneDayOfUser().Currency[i];
+            var transactionAccount = oneDayOfUser().Account[i];
+            /*=============================*/
+            // we have
+            // transactionNameOnly - the name of the transaction
+            // operationName - the name of operation the category of transaction
+            // transactionDay - the day of the transaction
+            // Month, Year - from the arguments of the function
+            // Question - have I make the variables like var Month = Month?
+            // transactionType - the type of the transaction
+            // transactionAmount - the amount of the transaction
+            // transactionCurrency - the currency of the transaction
+            // transactionAccount - the account for the transaction
+
+            
+            if(transaction_Date >= DATE_OF_DENOMINATION){
+                if((oneDayOfUser().Currency[i] === "Byn") || (oneDayOfUser().Currency[i] === "Usd")){
+                    WriteTransaction(transaction_Date,transactionType, operationName, transactionNameOnly, 
+                             transactionAmount, transactionCurrency, transactionAccount)
+                }
+            }
+
+            if(transaction_Date < DATE_OF_DENOMINATION){
+                if((oneDayOfUser().Currency[i] === "Byr") || (oneDayOfUser().Currency[i] === "Usd")){
+                    WriteTransaction(transaction_Date,transactionType, operationName, transactionNameOnly, 
+                             transactionAmount, transactionCurrency, transactionAccount)
+                }
+            }
+            // this 2 if-conditions checks if the denomination time, and choose the correct currency of the operation
+            // use all this variables);//we write a transaction and only we need to give a random name for it
+        }
+    }
+}
+
+function runMonthlyOneAndTwice(startDate, finishDate){// global function runs transaction generation
     var startDATE = standartDate(startDate);
     print("##startDATE-"+startDATE);
     
@@ -195,7 +255,8 @@ function runMonthlyOne(startDate, finishDate){// global function runs transactio
 
     var last_Day = max_day_month; // for the first month
         
-    makeMonthlyTransactions(start_Day, last_Day, start_Month, start_Year);// we call this function
+    makeMonthlyTransactions(start_Day, last_Day, start_Month, start_Year);
+    makeMonthlyTransactionsTwice(start_Day, last_Day, start_Month, start_Year);// we call this functions
     //to make all monthly transactions for the first month
 
        
@@ -234,10 +295,12 @@ do{
     
     if(cycleDATEfinish > finishDATE){
         makeMonthlyTransactions(cycleDayFirst, finishDATE.getDate(), cycleMonth, cycleYear);
+        makeMonthlyTransactionsTwice(start_Day, last_Day, start_Month, start_Year);
         //we are in the last short month
     }
     else{
         makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);
+        makeMonthlyTransactionsTwice(start_Day, last_Day, start_Month, start_Year);
         //we work with full month
     }
     
@@ -263,5 +326,5 @@ do{
 
 }
 
-runMonthlyOne("1/1/2010", "10/11/2010");//start date and final date - in my task 2016
+runMonthlyOneAndTwice("1/1/2010", "10/11/2010");//start date and final date - in my task 2016
 
