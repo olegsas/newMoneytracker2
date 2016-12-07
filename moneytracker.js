@@ -232,8 +232,14 @@ do{
     cycleDATEfinish.setDate(cycleDATEfinish.getDate()+cycle_day_in_month-1);
     print("##cycleDATEfinish - " + cycleDATEfinish);
     
-    makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);//Define please what is the start day and the finish day!
-    // We don`t care now about the last short month - we will check it later
+    if(cycleDATEfinish > finishDATE){
+        makeMonthlyTransactions(cycleDayFirst, finishDATE.getDate(), cycleMonth, cycleYear);
+        //we are in the last short month
+    }
+    else{
+        makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);
+        //we work with full month
+    }
     
     bufferDay = cycleDATEfinish.getDate();
     bufferMonth = cycleDATEfinish.getMonth();
@@ -257,5 +263,5 @@ do{
 
 }
 
-runMonthlyOne("1/1/2010", "25/11/2010");//start date and final date - in my task 2016
+runMonthlyOne("1/1/2010", "10/11/2010");//start date and final date - in my task 2016
 
