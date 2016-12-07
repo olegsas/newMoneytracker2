@@ -228,7 +228,7 @@ function makeMonthlyTransactionsTwice(start_Day, finish_Day, Month, Year){
             var transactionNameOnly1 = transactionNameH[0].names[Number_of_the_name_of_transaction1];
             var transactionNameOnly2 = transactionNameH[0].names[Number_of_the_name_of_transaction2];
             print("name of any transaction1 = "+ transactionNameOnly1);
-            print("name of any transaction1 = "+ transactionNameOnly1);
+            print("name of any transaction2 = "+ transactionNameOnly2);
 
             var transactionType = oneDayOfUser().Type[i];
             var transactionCurrency = oneDayOfUser().Currency[i];
