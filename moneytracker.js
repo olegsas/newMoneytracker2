@@ -208,7 +208,10 @@ var cycleDATEstart,
     cycle_day_in_month,
     cycleDay,
     cycleMonth,
-    cycleYear;
+    cycleYear,
+    bufferDay,
+    bufferMonth,
+    bufferYear;
 do{
     cycleDATEstart = zDATE;// first day of month
     print("##cycleDATEstart - " + cycleDATEstart);
@@ -221,15 +224,26 @@ do{
     cycle_day_in_month = new Date(cycleYear, cycleMonth+1,0).getDate();//how many days in month - OK
     print("##cycle_day_in_month - " + cycle_day_in_month);
 
-    cycleDATEfinish = cycleDATEstart;//just now
+    bufferDay = cycleDATEstart.getDate();
+    bufferMonth = cycleDATEstart.getMonth();
+    bufferYear = cycleDATEstart.getFullYear();
+    
+    cycleDATEfinish = new Date(bufferYear, bufferMonth, bufferDay);//just now we have a clone
     cycleDATEfinish.setDate(cycleDATEfinish.getDate()+cycle_day_in_month-1);
     print("##cycleDATEfinish - " + cycleDATEfinish);
     
     makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);//Define please what is the start day and the finish day!
     // We don`t care now about the last short month - we will check it later
-    zDATE = cycleDATEfinish;//just now
+    
+    bufferDay = cycleDATEfinish.getDate();
+    bufferMonth = cycleDATEfinish.getMonth();
+    bufferYear = cycleDATEfinish.getFullYear();
+    
+    zDATE = new Date(bufferYear, bufferMonth, bufferDay);//just now we have a clone 
     zDATE.setDate(cycleDATEfinish.getDate()+1);
     print("##zDATE = cycleDATEfinish+1 = "+zDATE);
+    print("$$cycleDATEfinish - "+cycleDATEfinish);
+    print("$$finishDATE - "+finishDATE);
 }while(cycleDATEfinish < finishDATE);
 
 
