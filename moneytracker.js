@@ -181,6 +181,8 @@ function makeMonthlyTransactions(start_Day, finish_Day, Month, Year){// we check
 function runMonthlyOne(startDate, finishDate){// global function runs transaction generation
     var startDATE = standartDate(startDate);
     print("##startDATE-"+startDATE);
+    
+    finishDATE = standartDate(finishDate);//standart Data objects
     var start_Day = startDATE.getDate();
     print("##start_Day - "+ start_Day);
     var start_Month = startDATE.getMonth();// month is in range 0...11
@@ -202,15 +204,21 @@ function runMonthlyOne(startDate, finishDate){// global function runs transactio
         print("### 1 now NOW DATE = "+zDATE);// 1-st February
         var iii = 0;// for a debug only
 
+var cycleDATEstart,
+    cycleDATEfinish,
+    cycle_day_in_month,
+    cycleDay,
+    cycleMonth,
+    cycleYear;
 do{
     cycleDATEstart = zDATE;// first day of month
     print("##cycleDATEstart - " + cycleDATEstart);
-    cycleDAY = zDATE.getDate();
-    print("##cycleDAY - " + cycleDAY);
+    cycleDay = zDATE.getDate();
+    print("cycleDay - " + cycleDay);
     cycleMonth = zDATE.getMonth();
-    print("##cycleMonth - " + cycleMonth);//february = 1
+    print("cycleMonth - " + cycleMonth);//february = 1
     cycleYear = zDATE.getFullYear();
-    print("##cycleYear - " + cycleYear);
+    print("cycleYear - " + cycleYear);
     cycle_day_in_month = new Date(cycleYear, cycleMonth+1,0).getDate();//how many days in month - OK
     print("##cycle_day_in_month - " + cycle_day_in_month);
 
@@ -221,7 +229,7 @@ do{
     zDATE.setDate(cycleDATEfinish.getDate()+1);
     print("##zDATE = cycleDATEfinish+1 = "+zDATE);
     iii++;
-}while(iii<5);
+}while(cycleDATEfinish < finishDATE);
 
 
    
@@ -229,10 +237,10 @@ do{
 
         
         
-        finishDATE = standartDate(finishDate);//standart Data objects
+        
 
 
 }
 
-runMonthlyOne("1/1/2010", "25/11/2016");//start date and final date
+runMonthlyOne("1/1/2010", "25/11/2010");//start date and final date - in my task 2016
 
