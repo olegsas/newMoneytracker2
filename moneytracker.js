@@ -202,7 +202,6 @@ function runMonthlyOne(startDate, finishDate){// global function runs transactio
         var zDATE = new Date(start_Year, start_Month, last_Day);
         zDATE.setDate(zDATE.getDate()+1);
         print("### 1 now NOW DATE = "+zDATE);// 1-st February
-        var iii = 0;// for a debug only
 
 var cycleDATEstart,
     cycleDATEfinish,
@@ -213,8 +212,8 @@ var cycleDATEstart,
 do{
     cycleDATEstart = zDATE;// first day of month
     print("##cycleDATEstart - " + cycleDATEstart);
-    cycleDay = zDATE.getDate();
-    print("cycleDay - " + cycleDay);
+    cycleDayFirst = zDATE.getDate();
+    print("cycleDay - " + cycleDayFirst);
     cycleMonth = zDATE.getMonth();
     print("cycleMonth - " + cycleMonth);//february = 1
     cycleYear = zDATE.getFullYear();
@@ -225,10 +224,12 @@ do{
     cycleDATEfinish = cycleDATEstart;//just now
     cycleDATEfinish.setDate(cycleDATEfinish.getDate()+cycle_day_in_month-1);
     print("##cycleDATEfinish - " + cycleDATEfinish);
+    
+    makeMonthlyTransactions(cycleDayFirst, cycle_day_in_month, cycleMonth, cycleYear);//Define please what is the start day and the finish day!
+    // We don`t care now about the last short month - we will check it later
     zDATE = cycleDATEfinish;//just now
     zDATE.setDate(cycleDATEfinish.getDate()+1);
     print("##zDATE = cycleDATEfinish+1 = "+zDATE);
-    iii++;
 }while(cycleDATEfinish < finishDATE);
 
 
