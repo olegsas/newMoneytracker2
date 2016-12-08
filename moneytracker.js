@@ -370,5 +370,5 @@ do{
 
 }
 
-runMonthlyOneAndTwice("1/1/2010", "20/1/2010");//start date and final date - in my task 2016
+runMonthlyOneAndTwice("1/6/2016", "20/8/2016");//start date and final date - in my task 2016
 
